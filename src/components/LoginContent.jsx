@@ -16,13 +16,17 @@ function LoginContent() {
       password:password
     })
     .then(function (response) {
-      console.log(response);
+      if(response.status === 200)
+      {
+        //if successful redirect from here to admin page
+      }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
+      //if login is incorrect throw error
     });
 
-    console.log( email, password);
+    // console.log( email, password);
     event.preventDefault();
   }
 
