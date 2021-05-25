@@ -56,6 +56,7 @@ app.use(passport.session());
 
 const MongoClient = require("mongodb").MongoClient;
 const { useTheme } = require("@material-ui/core");
+const { default: axios } = require("axios");
 const uri =
   "mongodb+srv://admin:qlvasMVGIxDLCbDA@cluster0.ivv8d.mongodb.net/KartavyaDB?retryWrites=true&w=majority";
 mongoose.connect(uri, { useNewUrlParser: true,useCreateIndex:true, useUnifiedTopology: true });
@@ -82,6 +83,9 @@ app.get("/admin", function (req, res) {
     res.redirect("/login");
   }
 });
+app.get('/hello',(res,rep)=>{
+  console.log('Hello redirected')
+})
 app.get("/signup", function (req, res) {
   User.find(function (err, data) {
     if (err) {
@@ -96,6 +100,13 @@ app.post("/login",function(req,res){
     username:req.body.username,
     password:req.body.password
   })
+  passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
   req.login(user,function(err){
     if(err){
       console.log(err);
@@ -103,7 +114,7 @@ app.post("/login",function(req,res){
       passport.authenticate("local")(req,res,function(){
         
         console.log("Successfully logged in");
-        res.redirect("http://localhost:3000/admin");
+        res.redirect('/hello')
       })
     }
   })
